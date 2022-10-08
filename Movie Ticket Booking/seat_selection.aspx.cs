@@ -20,32 +20,7 @@ namespace movie_booking
 
         protected void btn_conf_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString = ConfigurationManager.ConnectionStrings["movieConnection"].ConnectionString;
-            try
-            {
-
-                using (con)
-                {
-                    string name = Session["name"].ToString();
-
-                    string command = "Insert into [Screen]( Movie_Name ,Row , Seat_no ,City , Cinema) values(@a,@b,@c,@d,@e)";
-                    SqlCommand cmd = new SqlCommand(command, con);
-                    cmd.Parameters.AddWithValue("a", name);
-                    cmd.Parameters.AddWithValue("b", row.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("c", seat.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("d", city.SelectedItem.Value);
-                    cmd.Parameters.AddWithValue("e", cinema.SelectedItem.Value);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("Error : " + ex.Message);
-            }
-
+            
             string row_select;
             if (row.SelectedItem.Value == "0")
             {
@@ -88,7 +63,34 @@ namespace movie_booking
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-                       
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = ConfigurationManager.ConnectionStrings["movieConnection"].ConnectionString;
+            try
+            {
+
+                using (con)
+                {
+                    string name = Session["name"].ToString();
+                    string name1 = Session["user"].ToString();
+                    string command = "Insert into [Screen](UserId, Movie_Name ,Row , Seat_no ,City , Cinema) values(@a,@b,@c,@d,@e,@f)";
+                    SqlCommand cmd = new SqlCommand(command, con);
+                    cmd.Parameters.AddWithValue("a", name1);
+                    cmd.Parameters.AddWithValue("b", name);
+                    cmd.Parameters.AddWithValue("c", row.SelectedItem.Value);
+                    cmd.Parameters.AddWithValue("d", seat.SelectedItem.Value);
+                    cmd.Parameters.AddWithValue("e", city.SelectedItem.Value);
+                    cmd.Parameters.AddWithValue("f", cinema.SelectedItem.Value);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error : " + ex.Message);
+            }
+
+
             Response.Redirect("Confirmed.aspx");
         }
     }

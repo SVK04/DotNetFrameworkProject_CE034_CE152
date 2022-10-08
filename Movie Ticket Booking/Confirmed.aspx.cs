@@ -22,9 +22,9 @@ namespace Movie_Ticket_Booking
             {
                 using (con)
                 {
-                    string command = "select * from [Screen] where Movie_Name = @a";
+                    string command = "select * from [Screen] where UserId = @a";
                     SqlCommand cmd = new SqlCommand(command, con);
-                    cmd.Parameters.AddWithValue("a", Session["name"]);
+                    cmd.Parameters.AddWithValue("a", Session["user"]);
                     con.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     GridView1.DataSource = rdr;
